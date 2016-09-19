@@ -36,7 +36,8 @@
 #define ShowDialog(%0,%1) ShowDialog@(%0,#%1)
 
 static
-	DL_@Name[MAX_PLAYERS][32 char]
+	DL_@Name[MAX_PLAYERS][32 char],
+	bool:DL_@Open[MAX_PLAYERS char]
 ;
 new
 	DL_@style,
@@ -53,6 +54,13 @@ public _@_DL_funcinc_@_()
 {
 	format("", 0, "");
 }
+stock bool:DialogIsOpen(playerid)
+{
+	if(!IsPlayerConnected(playerid))
+		return false;
+	return DL_@Open{playerid};
+}
+
 stock ShowDialog@(playerid, function[], style=INVALID_DIALOG_STYLE, caption[]="", info[]="", button1[]="", button2[]="", {Float,_}:...)
 {
 	static args;
@@ -105,6 +113,7 @@ stock ShowDialog@(playerid, function[], style=INVALID_DIALOG_STYLE, caption[]=""
 
 		strpack(DL_@Name[playerid], function, sizeof(DL_@Name[]));
 	}
+	DL_@Open{playerid} = true;
 	return 1;
 }
 
@@ -112,21 +121,26 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
 {
 	#if defined DIALOG_PROTECT_INPUT && DIALOG_PROTECT_INPUT == 1
 	for(new i, j = strlen(inputtext); i < j; ++i)
-	    inputtext[i] = '#';
+		if(inputtext[i] == '%');
+			inputtext[i] = '#';
 	#endif
 	if(dialogid == DIALOG_DEFAULT_ID)
 	{
-		new funcname[32] = "dialog_";
-		strcat(funcname, DL_@Name[playerid]);
+		if(DL_@Open{playerid})
+		{
+			new funcname[32] = "dialog_";
+			strcat(funcname, DL_@Name[playerid]);
 
-		DL_@Name[playerid]{0} = 0;
+			DL_@Name[playerid]{0} = 0;
+			DL_@Open{playerid} = false;
 
-		#if defined OnDialogPerformed
-		if(OnDialogPerformed(playerid, funcname[7], response, (funcidx(funcname) != -1)))
-	 		CallLocalFunction(funcname, "ddds", playerid, response, listitem, (!inputtext[0]) ? ("\1") : (inputtext));
-		#else
-	 	CallLocalFunction(funcname, "ddds", playerid, response, listitem, (!inputtext[0]) ? ("\1") : (inputtext));
-		#endif
+			#if defined OnDialogPerformed
+			if(OnDialogPerformed(playerid, funcname[7], response, (funcidx(funcname) != -1)))
+		 		CallLocalFunction(funcname, "ddds", playerid, response, listitem, (!inputtext[0]) ? ("\1") : (inputtext));
+			#else
+		 	CallLocalFunction(funcname, "ddds", playerid, response, listitem, (!inputtext[0]) ? ("\1") : (inputtext));
+			#endif
+		}
 	}
 	#if defined DL_@OnDialogResponse
 	    return DL_@OnDialogResponse(playerid, dialogid, response, listitem, inputtext);
