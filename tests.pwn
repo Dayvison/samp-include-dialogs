@@ -55,12 +55,12 @@ CreateDialog:Dialog_1(playerid, style, caption[], info[], button1[], button2[])
 	GetPlayerName(playerid, name, sizeof(name));
 	format(info, sizeof(info), "Hi %s!\nHow are you?", name);
 }
-Dialog:Dialog_1(playerid, dialogid, response, listitem, inputtext[])
+Dialog:Dialog_1(playerid, response, listitem, inputtext[])
 {
     SendClientMessage(playerid, -1, response ? ("Dialog_1 response: You clicked at button 1") :  ("Dialog_1 response: You clicked at button 0"));
     return true;
 }
-Dialog:Dialog_2(playerid, dialogid, response, listitem, inputtext[])
+Dialog:Dialog_2(playerid, response, listitem, inputtext[])
 {
     SendClientMessage(playerid, -1, response ? ("Dialog_2 response: You clicked at button 1") :  ("Dialog_2 response: You clicked at button 0"));
     return true;
