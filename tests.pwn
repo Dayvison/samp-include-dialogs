@@ -57,19 +57,19 @@ CreateDialog:Dialog_1(playerid, style, caption[], info[], button1[], button2[])
 }
 Dialog:Dialog_1(playerid, dialogid, response, listitem, inputtext[])
 {
-    SendClientMessage(playerid, -1, response ? "Dialog_1 response: You clicked at button 1" :  "Dialog_1 response: You clicked at button 0");
+    SendClientMessage(playerid, -1, response ? ("Dialog_1 response: You clicked at button 1") :  ("Dialog_1 response: You clicked at button 0"));
     return true;
 }
 Dialog:Dialog_2(playerid, dialogid, response, listitem, inputtext[])
 {
-    SendClientMessage(playerid, -1, response ? "Dialog_2 response: You clicked at button 1" :  "Dialog_2 response: You clicked at button 0");
+    SendClientMessage(playerid, -1, response ? ("Dialog_2 response: You clicked at button 1") :  ("Dialog_2 response: You clicked at button 0"));
     return true;
 }
 public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
 {
 	if(dialogid == Dialog_3)
 	{
-	    SendClientMessage(playerid, -1, response ? "Dialog_3 OnDialogResponse: You clicked at button 1" :  "Dialog_3 OnDialogResponse: You clicked at button 0");
+	    SendClientMessage(playerid, -1, response ? ("Dialog_3 OnDialogResponse: You clicked at button 1") :  ("Dialog_3 OnDialogResponse: You clicked at button 0"));
     	return true;
 	}
 	return true;
