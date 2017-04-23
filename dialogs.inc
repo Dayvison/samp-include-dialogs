@@ -28,10 +28,10 @@
 #define Dialog:%0(%1) \
 	forward dialog_%0(%1); public dialog_%0(%1)
 
-#define CreateDialog:%0(%1,%2[],%3[],%4[],%5[]) \
+#define CreateDialog:%0(%1,%2,%3[],%4[],%5[],%6[]) \
 	forward DL_F@%0(%1); public DL_F@%0(%1) { DL_f@%0(%1,DL_@style,DL_@caption,DL_@info,DL_@button1,DL_@button2); } \
-	forward DL_f@%0(%1,&%2[DIALOG_MAX_CAPTION],%3[DIALOG_MAX_INFO],%4[DIALOG_MAX_BUTTON],%5[DIALOG_MAX_BUTTON]); \
-	public DL_f@%0(%1,&%2[DIALOG_MAX_CAPTION],%3[DIALOG_MAX_INFO],%4[DIALOG_MAX_BUTTON],%5[DIALOG_MAX_BUTTON])
+	stock DL_f@%0(%1,&%2,%3[DIALOG_MAX_CAPTION],%4[DIALOG_MAX_INFO],%5[DIALOG_MAX_BUTTON],%6[DIALOG_MAX_BUTTON])
+
 
 #define ShowDialog(%0,%1) ShowDialog@(%0,#%1)
 
